@@ -2,6 +2,7 @@ package com.hfad.coroutinedemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.SeekBar
 import com.hfad.coroutinedemo.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
@@ -9,6 +10,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
@@ -44,4 +46,14 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
+    fun launchCoroutines(view: View) {
+
+        (1..count).forEach {
+            binding.statusTex.text = "Started Coroutine ${it}"
+            coroutineScope.launch(Dispatchers.Main) {
+                binding.statusTex.text = performTask(it).await()
+            }
+        }
+    }
+
 }
